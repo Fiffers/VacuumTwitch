@@ -1,5 +1,7 @@
 # VacuumTwitch
 
+![screenshot](flatpak/screenshots/main.png)
+
 VacuumTwitch is an unofficial wrapper of Twitch Leanback/starshot64 (the console and Smart TV version of Twitch) for the desktop, with a minor enhancements.
 
 ## What exactly is this?
