@@ -46,8 +46,8 @@ Otherwise, you can use a distribution package or a portable one. If you don't kn
 Builds will be created in the dist/ folder
 
 ```sh
-git clone https://github.com/shy1132/VacuumTube
-cd VacuumTube
+git clone https://github.com/superkeka/VacuumTwitch
+cd VacuumTwitch
 
 # Install Dependencies
 npm i
