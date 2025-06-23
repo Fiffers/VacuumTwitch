@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vacuum Settings</title>
+  <style>
+    html {
+      font-size: 1.2vw;
+    }
+
+    body {
+      font-family: sans-serif;
+      background-color: #121212;
+      color: #fff;
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 40rem;
+    }
+
+    .option {
+      padding: 1.5rem;
+      background-color: #1e1e1e;
+      border-radius: 0.5rem;
+      outline: none;
+      border: 2px solid transparent;
+      transition: border-color 0.2s, background-color 0.2s;
+    }
+
+    .option:focus {
+      border-color: #bb86fc;
+      background-color: #2c2c2c;
+    }
+
+    .option h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    .option p {
+      margin: 0;
+      font-size: 1rem;
+      color: #ccc;
+    }
+
+    .checkbox {
+      float: right;
+      transform: scale(1.4);
+    }
+  </style>
+</head>
+<body>
+  <h1>VacuumTwitch Settings</h1>
+  <div class="menu" id="settingsMenu"></div>
+
+  <script>
+    const settings = [
+        {
+            key: "keep_on_top",
+            title: "Keep on Top",
+            description: "Window stays on top. Always on in Steam Game Mode.",
+        },
+        {
+            key: "hardware_decoding",
+            title: "Hardware Decoding",
+            description: "Uses your GPU to decode video. Disabling may help playback, but can lag CPU. Relaunch after toggling.",
+        }
+    ];
+
+    const settingsMenu = document.getElementById("settingsMenu");
+
+    const config = window.vacuum.getConfig();
+
+    function loadSetting(key) {
+        return config[key];
+    }
+
+    function saveSetting(key, value) {
+        config[key] = value;
+        window.vacuum.setConfig(config);
+    }
+
+    settings.forEach((s, i) => {
+        const option = document.createElement("div");
+        option.className = "option";
+        option.tabIndex = 0;
+        option.dataset.key = s.key;
+        
+        const title = document.createElement("h3");
+        title.textContent = s.title;
+
+        const description = document.createElement("p");
+        description.textContent = s.description;
+
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.className = "checkbox";
+        checkbox.checked = loadSetting(s.key);
+        
+        checkbox.addEventListener("change", (e) => {
+            saveSetting(s.key, e.target.checked);
+        });
+        
+        option.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                checkbox.checked = !checkbox.checked;
+                saveSetting(s.key, checkbox.checked);
+            }
+        });
+        
+        option.appendChild(title);
+        option.appendChild(checkbox);
+        option.appendChild(description);
+        settingsMenu.appendChild(option);
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+        const first = document.querySelector(".option");
+        first?.focus();
+
+        setTimeout(() => {
+            initControls();
+        }, 1000);
+    });
+
+
+    function initControls() {
+        document.addEventListener("keydown", (e) => {
+            const key = e.key || keyFromCode(e.keyCode);
+        
+            const items = Array.from(document.querySelectorAll(".option"));
+            const focused = document.activeElement;
+            const currentIndex = items.indexOf(focused);
+        
+            let nextIndex = currentIndex;
+            if (key === "ArrowDown") nextIndex++;
+            else if (key === "ArrowUp") nextIndex--;
+        
+            if (nextIndex >= 0 && nextIndex < items.length) {
+                items[nextIndex].focus();
+                e.preventDefault();
+            }
+
+            if (key === 'Escape' || key === 'ArrowLeft') {
+                const { ipcRenderer } = window.electron;
+                ipcRenderer.send('load-main-page');
+            }
+        
+            if (key === "Enter") {
+                console.log("enter")
+                const focused = document.activeElement;
+                if (focused?.classList.contains("option")) {
+                    const checkbox = focused.querySelector("input[type='checkbox']");
+                    const settingKey = checkbox && checkbox.closest(".option")?.dataset?.key;
+                
+                    if (checkbox && settingKey) {
+                        checkbox.checked = !checkbox.checked;
+                        saveSetting(settingKey, checkbox.checked);
+                    }
+                }
+            }
+        });
+    }
+
+    function keyFromCode(code) {
+        switch (code) {
+            case 38: return "ArrowUp";
+            case 40: return "ArrowDown";
+            case 13: return "Enter";
+            case 27: return "Escape";
+            default: return "";
+        }
+    }
+  </script>
+</body>
+</html>
