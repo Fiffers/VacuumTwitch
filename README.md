@@ -58,3 +58,11 @@ npm run start
 # Or package release builds
 npm run build
 ```
+
+## Credits
+
+This project is a modified fork of [VacuumTube](https://github.com/shy1132/VacuumTube)
+
+Originally created by [@shy1132](https://github.com/shy1132) — huge thanks for the great work!
+
+
