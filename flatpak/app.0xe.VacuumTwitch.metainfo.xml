@@ -28,8 +28,8 @@
     </screenshot>
   </screenshots>
   <releases>
-    <release version="1.0.0" date="2025-03-23" type="stable">
-      <url>https://github.com/superkeka/VacuumTwitch/releases/tag/v1.0.0</url>
+    <release version="1.0.1" date="2025-06-25" type="stable">
+      <url>https://github.com/superkeka/VacuumTwitch/releases/tag/v1.0.1</url>
       <description>
         <p>Initial release</p>
       </description>
