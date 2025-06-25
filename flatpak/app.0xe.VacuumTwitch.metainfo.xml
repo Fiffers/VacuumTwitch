@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='utf-8'?>
+<component type="desktop-application">
+  <!--Created with jdAppStreamEdit 9.2-->
+  <id>app.0xe.VacuumTwitch</id>
+  <name>VacuumTwitch</name>
+  <summary>Twitch TV interface on the desktop</summary>
+  <developer id="app.0xe">
+    <name>shy</name>
+  </developer>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <update_contact>superkeka+vacuumtwitch@0xe.app</update_contact>
+  <description>
+    <p>VacuumTwitch is an unofficial open source wrapper of Twitch Leanback (the console and Smart TV version of Twitch) for the desktop.</p>
+  </description>
+  <screenshots>
+    <screenshot>
+      <caption>Main Menu</caption>
+      <image type="source">https://raw.githubusercontent.com/superkeka/VacuumTwitch/refs/heads/main/flatpak/screenshots/main.png</image>
+    </screenshot>
+    <screenshot type="default">
+      <caption>Watching a video</caption>
+      <image type="source">https://raw.githubusercontent.com/superkeka/VacuumTwitch/refs/heads/main/flatpak/screenshots/video.png</image>
+    </screenshot>
+    <screenshot>
+      <caption>Searching</caption>
+      <image type="source">https://raw.githubusercontent.com/superkeka/VacuumTwitch/refs/heads/main/flatpak/screenshots/search.png</image>
+    </screenshot>
+  </screenshots>
+  <releases>
+    <release version="1.0.0" date="2025-03-23" type="stable">
+      <url>https://github.com/superkeka/VacuumTwitch/releases/tag/v1.0.0</url>
+      <description>
+        <p>Initial release</p>
+      </description>
+    </release>
+  </releases>
+  <url type="homepage">https://github.com/superkeka/VacuumTwitch</url>
+  <url type="bugtracker">https://github.com/superkeka/VacuumTwitch/issues</url>
+  <url type="vcs-browser">https://github.com/superkeka/VacuumTwitch</url>
+  <url type="contribute">https://github.com/superkeka/VacuumTwitch</url>
+  <requires>
+    <internet>always</internet>
+  </requires>
+  <recommends>
+    <control>gamepad</control>
+    <control>tv-remote</control>
+  </recommends>
+  <supports>
+    <control>pointing</control>
+    <control>keyboard</control>
+    <control>tablet</control>
+    <control>touch</control>
+  </supports>
+  <content_rating type="oars-1.1"/>
+  <launchable type="desktop-id">app.0xe.VacuumTwitch.desktop</launchable>
+  <keywords>
+    <keyword>twitch</keyword>
+    <keyword>tv</keyword>
+    <keyword>leanback</keyword>
+  </keywords>
+</component>

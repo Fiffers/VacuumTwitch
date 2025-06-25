@@ -1,4 +1,4 @@
-//don't tell youtube when application is minimized, otherwise it'll sometimes stop playback
+//don't tell twitch when application is minimized, otherwise it'll sometimes stop playback
 
 module.exports = () => {
     document.addEventListener('visibilitychange', (e) => {

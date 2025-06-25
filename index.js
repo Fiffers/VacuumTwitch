@@ -3,7 +3,7 @@ const electron = require('electron')
 const { autoUpdater } = require('electron-updater')
 const path = require('path')
 
-electron.app.setName('VacuumTube')
+electron.app.setName('VacuumTwitch')
 
 const userData = electron.app.getPath('userData')
 const sessionData = path.join(userData, 'sessionData')
@@ -13,14 +13,15 @@ const configManager = require('./config.js')
 const package = require('./package.json')
 
 //code
-const userAgent = `Mozilla/5.0 (PS4; Leanback Shell) Cobalt/26.lts.0-qa; compatible; VacuumTube/${package.version}` //leanback is really weird about its user agents, but ps4 allows the zoom hack to work for some reason. also added "compatible" and "VacuumTube" just to be transparent
+const appUrl = 'https://celadon-arztjmkowcbjjgq11.tv.twitch.tv/app-shell?lnchv=12.3.0.0000'
+const userAgent = `Mozilla/5.0 (PS4; Leanback Shell) Cobalt/26.lts.0-qa; compatible; VacuumTwitch/${package.version}`
 const runningOnSteam = process.env.SteamOS == '1' && process.env.SteamGamepadUI == '1'
 
 let config;
 
 async function main() {
     if (process.argv.includes('--version') || process.argv.includes('-v')) {
-        process.stdout.write(`VacuumTube ${package.version}\n`, () => { //console.log then process.exit isn't safe since console.log is async, so that's why it's done with process.stdout instead
+        process.stdout.write(`VacuumTwitch ${package.version}\n`, () => { //console.log then process.exit isn't safe since console.log is async, so that's why it's done with process.stdout instead
             process.exit(0)
         })
 
@@ -91,6 +92,8 @@ async function createWindow() {
         }
     })
 
+    mainWindow.webContents.openDevTools()
+
     mainWindow.setMenuBarVisibility(false)
     mainWindow.setAutoHideMenuBar(false)
 
@@ -103,12 +106,9 @@ async function createWindow() {
     if (process.argv.includes('--debug-gpu')) {
         mainWindow.loadURL('chrome://gpu', { userAgent })
     } else {
-        let url = new URL('https://www.youtube.com/tv/')
-        if (config.low_memory_mode) {
-            url.searchParams.append('env_isLimitedMemory', true)
-        }
+        let url = new URL(appUrl)
 
-        console.log(`loading youtube from ${url.href}`)
+        console.log(`loading twitch from ${url.href}`)
         mainWindow.loadURL(url.href, { userAgent })
     }
 
@@ -150,9 +150,9 @@ async function createWindow() {
         return mainWindow.isFocused();
     })
 
-    //keep window title as VacuumTube
+    //keep window title as VacuumTwitch
     mainWindow.webContents.on('page-title-updated', () => {
-        mainWindow.setTitle('VacuumTube')
+        mainWindow.setTitle('VacuumTwitch')
     })
 
     //trickery to make it always enable high res quality options
@@ -163,6 +163,18 @@ async function createWindow() {
             mainWindow.webContents.setZoomLevel(0)
         })
     })
+
+    electron.ipcMain.on('load-settings-page', (event) => {
+        const win = electron.BrowserWindow.fromWebContents(event.sender);
+        win.loadFile(path.join(__dirname, 'public/settings.html'));
+    });
+
+    electron.ipcMain.on('load-main-page', (event) => {
+        const win = electron.BrowserWindow.fromWebContents(event.sender);
+
+        let url = new URL(appUrl)
+        win.loadURL(url.href, { userAgent });
+    });
 }
 
 electron.app.once('ready', () => {

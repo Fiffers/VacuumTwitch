@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=VacuumTwitch
+Exec=startvacuumtwitch %U
+Terminal=false
+Type=Application
+Icon=app.0xe.VacuumTwitch
+StartupWMClass=VacuumTwitch
+GenericName=Twitch Leanback
+Categories=AudioVideo;
+Keywords=Twitch;TV;
+Comment=Twitch TV interface on the desktop

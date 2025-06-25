@@ -1,16 +1,14 @@
-# VacuumTube
+# VacuumTwitch
 
-VacuumTube is an unofficial wrapper of YouTube Leanback (the console and Smart TV version of YouTube) for the desktop, with a built-in adblocker and minor enhancements.
+![screenshot](flatpak/screenshots/main.png)
+
+VacuumTwitch is an unofficial wrapper of Twitch Leanback/starshot64 (the console and Smart TV version of Twitch) for the desktop, with a minor enhancements.
 
 ## What exactly is this?
 
-It is **not** a custom client, YouTube Leanback is an official interface. This project simply encompasses it and makes it usable as a standalone desktop application.
+It is **not** a custom client, Twitch Leanback (starshot64) is an official interface. This project simply encompasses it and makes it usable as a standalone desktop application.
 
-YouTube Leanback is just an HTML5 app, and so you *can* just use it in your browser by going to https://www.youtube.com/tv, but they intentionally block browsers unless it's one of their console or TV apps.
-
-You can technically bypass this by spoofing your user agent, but it isn't the same experience you'd get on a console or TV as it doesn't support controllers outside of the official app, and it's just a much more involved process to get it working.
-
-VacuumTube solves all of this by wrapping it with Electron, pretending to be the YouTube app, implementing controller *and* touch support, and overall making it a much better experience than just spoofing your user agent.
+VacuumTwitch implementing controller *and* touch support, and overall making it a much better experience.
 
 ## Installing
 
@@ -18,28 +16,28 @@ VacuumTube solves all of this by wrapping it with Electron, pretending to be the
 
 If you don't know the difference, pick the Installer.
 
-- [Installer](https://github.com/shy1132/VacuumTube/releases/latest/download/VacuumTube-Setup.exe)
+- [Installer](https://github.com/superkeka/VacuumTwitch/releases/latest/download/VacuumTwitch-Setup.exe)
 - Portable:
-  - [x64 / amd64](https://github.com/shy1132/VacuumTube/releases/latest/download/VacuumTube-x64-Portable.zip)
-  - [Arm® 64](https://github.com/shy1132/VacuumTube/releases/latest/download/VacuumTube-arm64-Portable.zip)
+  - [x64 / amd64](https://github.com/superkeka/VacuumTwitch/releases/latest/download/VacuumTwitch-x64-Portable.zip)
+  - [Arm® 64](https://github.com/superkeka/VacuumTwitch/releases/latest/download/VacuumTwitch-arm64-Portable.zip)
 
 ### Mac
 No macOS builds available yet.
 
 ### Linux
 
-In most cases, you very likely want to use the [Flatpak](https://flathub.org/apps/rocks.shy.VacuumTube), which works across all distributions and common architectures.
+In most cases, you very likely want to use the [Flatpak](https://flathub.org/apps/rocks.shy.VacuumTwitch), which works across all distributions and common architectures.
 
 Otherwise, you can use a distribution package or a portable one. If you don't know the difference, you likely want amd64.
 
 - amd64 / x86_64
-  - [AppImage](https://github.com/shy1132/VacuumTube/releases/latest/download/VacuumTube-x86_64.AppImage)
-  - [Ubuntu/Debian/Mint (.deb)](https://github.com/shy1132/VacuumTube/releases/latest/download/VacuumTube-amd64.deb)
-  - [tarball](https://github.com/shy1132/VacuumTube/releases/latest/download/VacuumTube-x64.tar.gz)
+  - [AppImage](https://github.com/superkeka/VacuumTwitch/releases/latest/download/VacuumTwitch-x86_64.AppImage)
+  - [Ubuntu/Debian/Mint (.deb)](https://github.com/superkeka/VacuumTwitch/releases/latest/download/VacuumTwitch-amd64.deb)
+  - [tarball](https://github.com/superkeka/VacuumTwitch/releases/latest/download/VacuumTwitch-x64.tar.gz)
 - Arm® 64 / aarch64
-  - [AppImage](https://github.com/shy1132/VacuumTube/releases/latest/download/VacuumTube-arm64.AppImage)
-  - [Ubuntu/Debian/Mint (.deb)](https://github.com/shy1132/VacuumTube/releases/latest/download/VacuumTube-arm64.deb)
-  - [tarball](https://github.com/shy1132/VacuumTube/releases/latest/download/VacuumTube-arm64.tar.gz)
+  - [AppImage](https://github.com/superkeka/VacuumTwitch/releases/latest/download/VacuumTwitch-arm64.AppImage)
+  - [Ubuntu/Debian/Mint (.deb)](https://github.com/superkeka/VacuumTwitch/releases/latest/download/VacuumTwitch-arm64.deb)
+  - [tarball](https://github.com/superkeka/VacuumTwitch/releases/latest/download/VacuumTwitch-arm64.tar.gz)
 
 ## Building from Source
 
@@ -64,5 +62,3 @@ npm run build
 This project is a modified fork of [VacuumTube](https://github.com/shy1132/VacuumTube)
 
 Originally created by [@shy1132](https://github.com/shy1132) — huge thanks for the great work!
-
-

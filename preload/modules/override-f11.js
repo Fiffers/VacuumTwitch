@@ -1,4 +1,4 @@
-//block youtube from seeing f11 being pressed so it doesn't impede the user trying to toggle fullscreen
+//block twitch from seeing f11 being pressed so it doesn't impede the user trying to toggle fullscreen
 
 module.exports = () => {
     document.addEventListener('keydown', (e) => {
