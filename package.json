@@ -83,7 +83,7 @@
         "publish": {
             "provider": "github",
             "owner": "superkeka",
-            "repo": "VacuumTTwitch"
+            "repo": "VacuumTwitch"
         }
     },
     "devDependencies": {
