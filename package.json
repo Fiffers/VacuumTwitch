@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "start": "electron .",
-        "build": "electron-builder -wl",
+        "build": "electron-builder -wml",
         "build-appimage": "electron-builder --linux appimage",
         "flatpak:build-unpacked": "electron-builder --linux --dir"
     },
@@ -52,6 +52,26 @@
                 }
             ]
         },
+        "mac": {
+            "icon": "./assets/icon.icns",
+            "category": "public.app-category.entertainment",
+            "target": [
+                {
+                    "target": "dmg",
+                    "arch": [
+                        "x64",
+                        "arm64"
+                    ]
+                },
+                {
+                    "target": "zip",
+                    "arch": [
+                        "x64",
+                        "arm64"
+                    ]
+                }
+            ]
+        },
         "win": {
             "icon": "./assets/icon.ico",
             "artifactName": "VacuumTwitch-${arch}-Portable.zip",
@@ -83,7 +103,7 @@
         "publish": {
             "provider": "github",
             "owner": "superkeka",
-            "repo": "VacuumTTwitch"
+            "repo": "VacuumTwitch"
         }
     },
     "devDependencies": {
