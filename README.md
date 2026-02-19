@@ -21,8 +21,10 @@ If you don't know the difference, pick the Installer.
   - [x64 / amd64](https://github.com/superkeka/VacuumTwitch/releases/latest/download/VacuumTwitch-x64-Portable.zip)
   - [Arm® 64](https://github.com/superkeka/VacuumTwitch/releases/latest/download/VacuumTwitch-arm64-Portable.zip)
 
-### Mac
-No macOS builds available yet.
+### macOS
+
+- [DMG (Apple Silicon)](https://github.com/superkeka/VacuumTwitch/releases/latest/download/VacuumTwitch-arm64.dmg)
+- [DMG (Intel)](https://github.com/superkeka/VacuumTwitch/releases/latest/download/VacuumTwitch-x64.dmg)
 
 ### Linux
 
