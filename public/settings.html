@@ -80,12 +80,29 @@
             key: "hardware_decoding",
             title: "Hardware Decoding",
             description: "Uses your GPU to decode video. Disabling may help playback, but can lag CPU. Relaunch after toggling.",
+        },
+        {
+            key: "third_party_emotes",
+            title: "Third-Party Emotes",
+            description: "Show 7TV and BetterTTV emotes in chat.",
+        },
+        {
+            key: "oled_theme",
+            title: "OLED Theme",
+            description: "Pure black backgrounds. Saves power and deepens contrast on OLED displays.",
         }
     ];
 
     const settingsMenu = document.getElementById("settingsMenu");
 
     const config = window.vacuum.getConfig();
+
+    //match the theme the user picked, so opening settings doesn't flash grey
+    if (config.oled_theme) {
+        const oledStyle = document.createElement("style");
+        oledStyle.textContent = "body { background-color: #000; } .option { background-color: #0a0a0a; } .option:focus { background-color: #141414; }";
+        document.head.appendChild(oledStyle);
+    }
 
     function loadSetting(key) {
         return config[key];

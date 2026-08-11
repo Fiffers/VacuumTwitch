@@ -30,7 +30,7 @@ async function main() {
 
     if (runningOnSteam) electron.app.commandLine.appendSwitch('--no-sandbox') //won't run without this in game mode for me
 
-    config = configManager.init(path.join(userData, 'config.json'), {
+    config = configManager.init({
         fullscreen: !!runningOnSteam //if running on steam in game mode, override fullscreen to be on by default
     })
 
@@ -82,7 +82,7 @@ async function createWindow() {
     let mainWindow = new electron.BrowserWindow({
         width: 1200,
         height: 675,
-        backgroundColor: '#282828',
+        backgroundColor: config.oled_theme ? '#000000' : '#282828', //avoids a grey flash before the page paints
         fullscreen, //this sometimes doesn't work for people, so it's repeated below
         webPreferences: {
             nodeIntegration: false,

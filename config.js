@@ -13,7 +13,10 @@ const defaults = {
     fullscreen: false, //changes automatically depending on user's last preference
     adblock: false, //block ads
     hardware_decoding: true, //use hardware gpu video decoding
-    keep_on_top: false //whether or not to keep window on top
+    keep_on_top: false, //whether or not to keep window on top
+    third_party_emotes: true, //show 7tv and bttv emotes in chat
+    oled_theme: false, //pure black backgrounds for oled displays
+    chat_width: 25 //width of chat as a percentage of the window, dragged in the app
 }
 
 function init(overrides = {}) {
@@ -28,7 +31,7 @@ function init(overrides = {}) {
         let parsed = JSON.parse(fs.readFileSync(configFile, 'utf-8'))
         config = {
             ...defaults,
-            ...parsed
+            ...stripIndexKeys(parsed)
         }
 
         console.log('loaded config', config)
@@ -80,6 +83,21 @@ function update(newConfig = {}) {
 
 function get() {
     return config;
+}
+
+//earlier builds passed the config path in as the overrides argument, which spread the
+//string into the config one character at a time. drop that junk if we find it.
+function stripIndexKeys(parsed) {
+    let cleaned = {}
+
+    for (let key of Object.keys(parsed)) {
+        let isIndexKey = /^\d+$/.test(key)
+        if (isIndexKey) continue;
+
+        cleaned[key] = parsed[key]
+    }
+
+    return cleaned;
 }
 
 function isValidJson(file) {
