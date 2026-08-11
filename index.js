@@ -17,6 +17,9 @@ const appUrl = 'https://celadon-arztjmkowcbjjgq11.tv.twitch.tv/app-shell?lnchv=1
 const userAgent = `Mozilla/5.0 (PS4; Leanback Shell) Cobalt/26.lts.0-qa; compatible; VacuumTwitch/${package.version}`
 const runningOnSteam = process.env.SteamOS == '1' && process.env.SteamGamepadUI == '1'
 
+//must be set before the app is ready, chromium sets up its sandbox during startup
+if (runningOnSteam) electron.app.commandLine.appendSwitch('no-sandbox')
+
 let config;
 
 async function main() {
@@ -27,8 +30,6 @@ async function main() {
 
         return;
     }
-
-    if (runningOnSteam) electron.app.commandLine.appendSwitch('--no-sandbox') //won't run without this in game mode for me
 
     config = configManager.init({
         fullscreen: !!runningOnSteam //if running on steam in game mode, override fullscreen to be on by default
@@ -92,7 +93,7 @@ async function createWindow() {
         }
     })
 
-    mainWindow.webContents.openDevTools()
+    if (process.argv.includes('--devtools')) mainWindow.webContents.openDevTools()
 
     mainWindow.setMenuBarVisibility(false)
     mainWindow.setAutoHideMenuBar(false)
