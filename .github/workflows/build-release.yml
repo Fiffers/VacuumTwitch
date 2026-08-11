@@ -28,7 +28,7 @@ jobs:
         run: npm ci
 
       - name: Build Linux (${{ matrix.arch }})
-        run: npx electron-builder --linux --${{ matrix.arch }}
+        run: npx electron-builder --linux --${{ matrix.arch }} --publish never
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -58,7 +58,7 @@ jobs:
         run: npm ci
 
       - name: Build macOS (${{ matrix.arch }})
-        run: npx electron-builder --mac --${{ matrix.arch }}
+        run: npx electron-builder --mac --${{ matrix.arch }} --publish never
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
@@ -86,7 +86,7 @@ jobs:
         run: npm ci
 
       - name: Build Windows (${{ matrix.arch }})
-        run: npx electron-builder --win --${{ matrix.arch }}
+        run: npx electron-builder --win --${{ matrix.arch }} --publish never
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
