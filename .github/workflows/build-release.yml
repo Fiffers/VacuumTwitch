@@ -38,6 +38,7 @@ jobs:
             dist/*.deb
             dist/*.AppImage
             dist/*.tar.gz
+            dist/latest*.yml
           if-no-files-found: error
 
   build-macos:
