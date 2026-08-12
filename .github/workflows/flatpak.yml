@@ -25,8 +25,15 @@ jobs:
           flatpak remote-add --if-not-exists --user flathub https://flathub.org/repo/flathub.flatpakrepo
           flatpak install -y --user flathub org.freedesktop.Platform//24.08 org.freedesktop.Sdk//24.08 org.electronjs.Electron2.BaseApp//24.08
 
-      - name: Build Flatpak (x64)
-        run: npx electron-builder --linux flatpak --x64 --publish never
+      - name: Build app (unpacked)
+        run: npx electron-builder --linux dir --x64 --publish never
+
+      - name: Build flatpak
+        run: |
+          flatpak-builder --user --disable-rofiles-fuse --force-clean \
+            --repo=flatpak-repo build-dir flatpak/app.0xe.VacuumTwitch.yml
+          flatpak build-bundle flatpak-repo dist/VacuumTwitch-x86_64.flatpak \
+            app.0xe.VacuumTwitch --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
