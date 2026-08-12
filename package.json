@@ -1,6 +1,6 @@
 {
     "name": "vacuumtwich",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "description": "Twitch TV interface on the desktop",
     "main": "index.js",
     "scripts": {
