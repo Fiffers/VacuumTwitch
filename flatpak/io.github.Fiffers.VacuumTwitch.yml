@@ -1,4 +1,4 @@
-app-id: app.0xe.VacuumTwitch
+app-id: io.github.Fiffers.VacuumTwitch
 runtime: org.freedesktop.Platform
 runtime-version: '24.08'
 sdk: org.freedesktop.Sdk
@@ -24,12 +24,23 @@ modules:
       - mkdir -p /app/vacuumtwitch
       - cp -a linux-unpacked/. /app/vacuumtwitch/
       - install -Dm755 startvacuumtwitch /app/bin/startvacuumtwitch
-      - install -Dm644 app.0xe.VacuumTwitch.desktop /app/share/applications/app.0xe.VacuumTwitch.desktop
-      - install -Dm644 app.0xe.VacuumTwitch.metainfo.xml /app/share/metainfo/app.0xe.VacuumTwitch.metainfo.xml
+      # the shipped desktop/metainfo files carry the old app.0xe id, which flatpak rejects
+      - |
+        sed 's/app\.0xe\.VacuumTwitch/io.github.Fiffers.VacuumTwitch/g' \
+          app.0xe.VacuumTwitch.desktop \
+          > /tmp/io.github.Fiffers.VacuumTwitch.desktop
+        install -Dm644 /tmp/io.github.Fiffers.VacuumTwitch.desktop \
+          /app/share/applications/io.github.Fiffers.VacuumTwitch.desktop
+      - |
+        sed 's/app\.0xe\.VacuumTwitch/io.github.Fiffers.VacuumTwitch/g' \
+          app.0xe.VacuumTwitch.metainfo.xml \
+          > /tmp/io.github.Fiffers.VacuumTwitch.metainfo.xml
+        install -Dm644 /tmp/io.github.Fiffers.VacuumTwitch.metainfo.xml \
+          /app/share/metainfo/io.github.Fiffers.VacuumTwitch.metainfo.xml
       - |
         for size in 16 32 48 64 128 256 512; do
           install -Dm644 "icons/${size}x${size}.png" \
-            "/app/share/icons/hicolor/${size}x${size}/apps/app.0xe.VacuumTwitch.png"
+            "/app/share/icons/hicolor/${size}x${size}/apps/io.github.Fiffers.VacuumTwitch.png"
         done
     sources:
       - type: dir

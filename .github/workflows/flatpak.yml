@@ -31,9 +31,9 @@ jobs:
       - name: Build flatpak
         run: |
           flatpak-builder --user --disable-rofiles-fuse --force-clean \
-            --repo=flatpak-repo build-dir flatpak/app.0xe.VacuumTwitch.yml
+            --repo=flatpak-repo build-dir flatpak/io.github.Fiffers.VacuumTwitch.yml
           flatpak build-bundle flatpak-repo dist/VacuumTwitch-x86_64.flatpak \
-            app.0xe.VacuumTwitch --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
+            io.github.Fiffers.VacuumTwitch --runtime-repo=https://flathub.org/repo/flathub.flatpakrepo
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
