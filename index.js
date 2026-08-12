@@ -92,7 +92,7 @@ async function createWindow() {
         }
     })
 
-    mainWindow.webContents.openDevTools()
+    if (process.argv.includes('--devtools')) mainWindow.webContents.openDevTools()
 
     mainWindow.setMenuBarVisibility(false)
     mainWindow.setAutoHideMenuBar(false)
