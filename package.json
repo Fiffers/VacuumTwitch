@@ -17,6 +17,7 @@
         "productName": "VacuumTwitch",
         "artifactName": "VacuumTwitch-${arch}.${ext}",
         "linux": {
+            "executableName": "vacuumtwitch",
             "icon": "./assets/icons",
             "synopsis": "Twitch TV interface on the desktop",
             "category": "AudioVideo",

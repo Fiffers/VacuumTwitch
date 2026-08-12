@@ -55,4 +55,4 @@ modules:
       - type: script
         dest-filename: startvacuumtwitch
         commands:
-          - exec zypak-wrapper /app/vacuumtwitch/VacuumTwitch "$@"
+          - exec zypak-wrapper /app/vacuumtwitch/vacuumtwitch "$@"
