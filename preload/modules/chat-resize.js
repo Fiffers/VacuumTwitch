@@ -36,12 +36,16 @@ const edgeDelayMs = 180
 const toggleKeyCode = 117 //f6, and the select button
 const leftKeyCode = 37
 const rightKeyCode = 39
-const enterKeyCode = 13
-const confirmKeyCodes = new Set([13, 27]) //enter, escape
+const selectKeyCodes = new Set([13, 32]) //enter, space
+const confirmKeyCodes = new Set([13, 27, 32]) //enter, escape, space
 
 const css = `
-    aside { width: var(${widthProperty}, ${defaultWidth}vw) !important; }
-    main > section { width: calc(100vw - var(${widthProperty}, ${defaultWidth}vw)) !important; }
+    body:not([data-vacuum-chat-hidden]) aside {
+        width: var(${widthProperty}, ${defaultWidth}vw) !important;
+    }
+    body:not([data-vacuum-chat-hidden]) main > section {
+        width: calc(100vw - var(${widthProperty}, ${defaultWidth}vw)) !important;
+    }
 
     #${handleId} {
         position: fixed;
@@ -118,12 +122,63 @@ let overlayVisible = false;
 let overlayTimer = null;
 let edgeTimer = null;
 let previousFocus = null;
+let observedSection = null;
+let sectionObserver = null;
 let currentWidth = defaultWidth;
 let overlayHint = null;
 
 //the divider behaves like any other control: navigating onto it only highlights
 //it, and it ignores left/right until you actually select it
 let mode = 'idle' //'idle' | 'focused' | 'adjusting'
+
+//twitch hides chat by swapping the section's styled-components class to one that
+//declares width: 100vw. the hashes change every deploy, so read the declared width
+//rather than the class name, and stand down when twitch wants the full width.
+function twitchSectionWidth(section) {
+    for (const sheet of document.styleSheets) {
+        let rules;
+
+        try {
+            rules = sheet.cssRules
+        } catch {
+            continue; //cross-origin sheet
+        }
+
+        const isOurs = sheet.ownerNode?.id === styleId
+        if (isOurs) continue;
+
+        for (const rule of rules) {
+            if (!rule.style?.width || !rule.selectorText) continue;
+
+            try {
+                if (section.matches(rule.selectorText)) return rule.style.width;
+            } catch {
+                continue; //selector we can't match against
+            }
+        }
+    }
+
+    return null;
+}
+
+function chatIsVisible() {
+    const aside = document.querySelector('aside')
+    if (!aside) return false;
+
+    const section = document.querySelector('main > section')
+    if (!section) return false;
+
+    return twitchSectionWidth(section) !== '100vw';
+}
+
+function updateChatVisibility() {
+    const visible = chatIsVisible()
+
+    if (visible) delete document.body.dataset.vacuumChatHidden
+    else document.body.dataset.vacuumChatHidden = 'true'
+
+    return visible;
+}
 
 function clamp(value) {
     if (value < minWidth) return minWidth;
@@ -303,8 +358,7 @@ function handleAdjustingKey(code) {
 
 //highlighted but not selected yet, so left/right must not resize anything
 function handleFocusedKey(code) {
-    const isEnter = code === enterKeyCode
-    if (isEnter) {
+    if (selectKeyCodes.has(code)) {
         activate()
         return;
     }
@@ -322,8 +376,8 @@ function handleFocusedKey(code) {
 function handleKey(event) {
     const code = event.keyCode
 
-    const chatPresent = !!document.querySelector('aside')
-    if (!chatPresent) return;
+    const chatHidden = document.body.dataset.vacuumChatHidden === 'true'
+    if (chatHidden) return;
 
     const handleHasFocus = document.activeElement === handle
     if (handleHasFocus) {
@@ -386,14 +440,33 @@ function createOverlay() {
     document.body.appendChild(overlay)
 }
 
+function syncChatVisibility() {
+    const visible = updateChatVisibility()
+    if (handle) handle.style.display = visible ? 'block' : 'none'
+
+    const overlayShouldClose = overlayVisible && !visible
+    if (overlayShouldClose) releaseFocus()
+}
+
+//polling alone would leave the video a second behind the hide chat button, so
+//watch the class swap directly and fall back to the poll for re-acquisition
+function watchSectionClass() {
+    const section = document.querySelector('main > section')
+    const alreadyWatching = section === observedSection
+    if (!section || alreadyWatching) return;
+
+    if (sectionObserver) sectionObserver.disconnect()
+
+    observedSection = section
+    sectionObserver = new MutationObserver(syncChatVisibility)
+    sectionObserver.observe(section, { attributes: true, attributeFilter: ['class'] })
+}
+
 //chat only exists while watching, so the handle follows it on and off screen
 function watchForChat() {
     setInterval(() => {
-        const chatPresent = !!document.querySelector('aside')
-        handle.style.display = chatPresent ? 'block' : 'none'
-
-        const overlayShouldClose = overlayVisible && !chatPresent
-        if (overlayShouldClose) releaseFocus()
+        watchSectionClass()
+        syncChatVisibility()
     }, presenceCheckMs)
 }
 

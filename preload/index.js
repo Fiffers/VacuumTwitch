@@ -7,6 +7,7 @@ let modules = [
     require('./modules/fit-window'),
     require('./modules/oled-theme'),
     require('./modules/chat-resize'),
+    require('./modules/overlay-escape'),
     require('./modules/settings'),
     require('./modules/mouse-disappear'),
     require('./modules/prevent-visibilitychange'),
